@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <title>chart js</title>
+	<link rel="stylesheet" href="chart.css">
+</head>
+
+<body>
+	
+	<canvas id="myChart"></canvas>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	
+	<script> 
+		
+		var i = 0;
+		$(document).ready(function() {
+      
+      $.getJSON("https://api.airtable.com/v0/apphOVYXkHXl8pOqE/Expenses?api_key=keyeOdPoAGZBe49zc", function(json) {
+			var sum = 0;
+		  	var a = 0;
+			var b = 0;
+			var c = 0;
+			var d = 0;
+			var e = 0;
+		  
+			for(i=0;i<json.records.length;i++){
+			var cat = json.records[i].fields.Category;
+			if(cat === "Vegetables (Sabjiyan)"){
+//				console.log(typeof(json.records[i].fields.Amount));
+				sum = sum + json.records[i].fields.Amount;
+				} else if (cat === "Milk & Bread (Doodh aur Bread)"){
+					a = a + json.records[i].fields.Amount;
+				} else if(cat === "Eggs (Ande)"){
+					b = b + json.records[i].fields.Amount;
+				} else if (cat === "Groceries (Kiryana)"){
+					c = c + json.records[i].fields.Amount;
+				} else if (cat === "Transportation (Aane Jane ka Kharcha)"){
+					d = d + json.records[i].fields.Amount;
+				} else if (cat === "Other (Kuch Aur)"){
+					e = e + json.records[i].fields.Amount;
+				}
+			}
+		  console.log(sum);
+		  	
+		var ctx = document.getElementById("myChart").getContext('2d');
+		var myChart = new Chart(ctx, {
+		type: 'bar',
+		data: {
+			labels: ["Milk & Bread", "Egg", "Groceries", "Vegetables", "transapotion", "Other kuch"],
+			datasets: [{
+				label: '# Ab tak ka kharcha',
+				data: [a, b, c, sum, d, e],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(255, 206, 86, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(153, 102, 255, 0.2)',
+					'rgba(255, 159, 64, 0.2)'
+				],
+				borderColor: [
+					'rgba(255,99,132,1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(255, 206, 86, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(153, 102, 255, 1)',
+					'rgba(255, 159, 64, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					}
+				}]
+			}
+		}
+	});
+	  });
+});
+
+	</script>
+	
+</body>
+</html>
+
