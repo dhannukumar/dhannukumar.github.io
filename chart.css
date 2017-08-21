@@ -1,10 +1,12 @@
 
 canvas{
 	border-radius: 1px;
-    background-color: green;
+    background-color: skyblue;
 	height: 100vh;
 }
 
 body{
 	background-color: "yellow";
+	margin: 0px;
+	padding: 0px;
 }
